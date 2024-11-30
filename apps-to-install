@@ -1,0 +1,18 @@
+Setup  fedora free repo:
+sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm -y
+telegram-desktop
+wine
+wine.i686
+lutris
+visual studio code
+darktable
+git
+
+appimages (create desktop files, curl from provider/git and update)
+ - joplin
+ - keepassxc 
+
+configs:
+.local
+.config
+

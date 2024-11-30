@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=KeepassXC
+Exec=/home/kiretza/Software/KeePassXC-2.7.6-x86_64.AppImage %f
+Icon=/home/kiretza/Software/keepassxc.svg
+Type=Application

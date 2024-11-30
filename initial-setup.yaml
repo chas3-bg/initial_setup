@@ -1,0 +1,70 @@
+---
+- name: Initial Setup
+  gather_facts: true
+  hosts: localhost
+  connection: local
+  become_user: root
+  tasks:
+    - name: Install RPM Fusion free
+      become: true
+      dnf:
+        name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+        state: present
+
+    - name: Install git
+      become: true
+      dnf:
+        name: git
+        state: present
+
+    - name: Install telegram-desktop
+      become: true
+      dnf:
+        name: telegram-desktop
+        state: present
+
+    - name: Install syncthing
+      become: true
+      dnf: 
+        name: syncthing
+        state: present
+
+#figure out how to enable syncthing programatically
+
+    - name: Install wine
+      become: true
+      dnf:
+        name: wine, wine.i686
+        state: present
+
+    - name: Install lutris
+      become: true
+      dnf:
+        name: lutris
+        state: present
+
+    - name: Install darktable
+      become: true
+      dnf: 
+        name: darktable
+        state: present
+
+    - name: Create software dir
+      file:
+        path: /home/kiretza/Software
+        state: directory
+        mode: "755"
+
+#download app images for joplin and keepassxc ( specific version)
+    - name: Create applications directory in .local/share
+      file:
+        path: /home/kiretza/.local/share/applications
+        mode: "755"
+
+    - name: Copy keepass desktop file to .local.share
+      copy:
+        src: ./keepassxc.desktop
+        dest: /home/kiretza/.local/share/applications
+        owner: kiretza
+        group: kiretza
+        mode: "755"
