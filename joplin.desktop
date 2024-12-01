@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Joplin
+Exec=/home/kiretza/Software/Joplin-3.1.24.AppImage %f
+Icon=/home/kiretza/Software/joplin-icon.png
+Type=Application
