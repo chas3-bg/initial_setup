@@ -54,8 +54,15 @@
         path: /home/kiretza/Software
         state: directory
         mode: "755"
+    
+    - name: Copy keepassxc to the Software dir
+      copy:
+        src: ./Keepass.AppImage
+        dest: /home/kiretza/Software
+        owner: kiretza
+        group: kiretza
+        mode: "755"
 
-#download app images for joplin and keepassxc ( specific version)
     - name: Create applications directory in .local/share
       file:
         path: /home/kiretza/.local/share/applications
@@ -68,3 +75,20 @@
         owner: kiretza
         group: kiretza
         mode: "755"
+
+    - name: Get the joplin appimage
+      get_url:
+        url: "https://github.com/laurent22/joplin/releases/download/v3.1.24/Joplin-3.1.24.AppImage"
+        dest: /home/kiretza/Software
+        owner: kiretza
+        group: kiretza
+        mode: "755"
+
+    - name: Get simpleX appimage
+      get_url:
+        url: "https://github.com/simplex-chat/simplex-chat/releases/latest/download/simplex-desktop-x86_64.AppImage"
+        dest: /home/kiretza/Software
+        owner: kiretza
+        group: kiretza
+        mode: "755"
+
