@@ -11,43 +11,25 @@
         name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
         state: present
 
-    - name: Install git
+    - name: Install applications
       become: true
       dnf:
-        name: git
+        name: git, vim, telegram-desktop, syncthing, wine, wine.i686, lutris, darktable, deluge, fastfetch
         state: present
 
-    - name: Install telegram-desktop
+    - name: Copy systemd file for syncthing
       become: true
-      dnf:
-        name: telegram-desktop
-        state: present
+      copy:
+        src: ./syncthing@.service
+        desk: /etc/systemd/system/syncthing@.service
+        mode: "751"
 
-    - name: Install syncthing
+    - name: Enable systemd service for syncthing
       become: true
-      dnf: 
-        name: syncthing
-        state: present
-
-#figure out how to enable syncthing programatically
-
-    - name: Install wine
-      become: true
-      dnf:
-        name: wine, wine.i686
-        state: present
-
-    - name: Install lutris
-      become: true
-      dnf:
-        name: lutris
-        state: present
-
-    - name: Install darktable
-      become: true
-      dnf: 
-        name: darktable
-        state: present
+      systemd_service:
+        name: syncthing@kiretza.service
+        enabled: true
+        state: started
 
     - name: Create software dir
       file:
