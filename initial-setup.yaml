@@ -14,7 +14,7 @@
     - name: Install applications
       become: true
       dnf:
-        name: git, vim, telegram-desktop, syncthing, wine, wine.i686, lutris, darktable, deluge, fastfetch
+        name: git, vim, telegram-desktop, syncthing, wine, wine.i686, lutris, darktable, deluge, fastfetch, wireguard-tools
         state: present
 
     - name: Copy systemd file for syncthing
