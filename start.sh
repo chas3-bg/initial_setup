@@ -7,7 +7,7 @@ echo "Testing podman"
 podman run hello-world
 echo "Copy SSH keys to ~"
 mkdir ~/ssh
-rclone copy proton:ssh ~/ssh
+rclone copy proton:ssh ~/ssh/
 echo "Copy keepass key to ~"
 mkdir keepass
-rclone copy proton:KUR.key
+rclone copy proton:KUR.key ~/keepass/
