@@ -10,24 +10,67 @@
       dnf:
         name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
         state: present
+        disable_gpg_check: True
 
-    - name: Install applications
+    - name: Install RPM Fusion non-free
       become: true
       dnf:
-        name: git, vim, telegram-desktop, syncthing, wine, wine.i686, lutris, darktable, deluge, fastfetch, wireguard-tools, podman, podman-compose
+        name: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
         state: present
+        disable_gpg_check: True
 
-    - name: Install Visual Studio Code
+    - name: Install git, vim
       become: true
       dnf:
-        name: "https://code.visualstudio.com/sha/download?build=stable&os=linux-rpm-x64"
+        name: git, vim
         state: present
 
+    - name: Install syncthing, deluge, fastfetch
+      become: true
+      dnf: 
+        name: syncthing, deluge, fastfetch
+        state: present
+
+    - name: Install wine, lutris, steam
+      become: true
+      dnf:
+        name: wine, wine.i686, lutris, steam
+        state: present
+    
+    - name: Install darktable
+      become: true
+      dnf:
+        name: darktable
+        state: present
+
+    - name: Install podman, podman-compose
+      become: true
+      dnf:
+        name: podman, podman-compose
+        state: present
+      
+    
+    - name: Install rclone
+      become: true
+      dnf:
+        name: rclone
+        state: present
+
+    - name: Upgrade rclone
+      become: true
+      shell: rclone self-update
+
+    - name: Install VS code
+      become: true
+      dnf:
+        name: "https://vscode.download.prss.microsoft.com/dbazure/download/stable/fabdb6a30b49f79a7aba0f2ad9df9b399473380f/code-1.96.2-1734607808.el8.x86_64.rpm"
+        state: present
+    
     - name: Copy systemd file for syncthing
       become: true
       copy:
         src: ./syncthing@.service
-        desk: /etc/systemd/system/syncthing@.service
+        dest: /etc/systemd/system/syncthing@.service
         mode: "751"
 
     - name: Enable systemd service for syncthing
@@ -45,8 +88,16 @@
     
     - name: Copy keepassxc to the Software dir
       copy:
-        src: ./Keepass.AppImage
+        src: ./KeePassXC-2.7.6-x86_64.AppImage
         dest: /home/kiretza/Software
+        owner: kiretza
+        group: kiretza
+        mode: "755"
+    
+    - name: Copy Keepass icon to Software
+      copy:
+        src: ./keepassxc.svg
+        dest: /home/kiretza/Software/keepassxc.svg
         owner: kiretza
         group: kiretza
         mode: "755"
@@ -54,7 +105,9 @@
     - name: Create applications directory in .local/share
       file:
         path: /home/kiretza/.local/share/applications
+        state: directory
         mode: "755"
+
 
     - name: Copy keepass desktop file to .local.share
       copy:
@@ -72,6 +125,22 @@
         group: kiretza
         mode: "755"
 
+    - name: Copy joplin destop file 
+      copy:
+        src: ./joplin.desktop
+        dest: /home/kiretza/.local/share/applications
+        owner: kiretza
+        group: kiretza
+        mode: "755"
+
+    - name: Copy joplin icon to Software
+      copy:
+        src: ./joplin-icon.png
+        dest: /home/kiretza/Software
+        owner: kiretza
+        group: kiretza
+        mode: "755"
+
     - name: Get simpleX appimage
       get_url:
         url: "https://github.com/simplex-chat/simplex-chat/releases/latest/download/simplex-desktop-x86_64.AppImage"
@@ -80,14 +149,6 @@
         group: kiretza
         mode: "755"
 
-    - name: Setup wireguard
-      become: true
-      copy:
-        src: ./wg2.conf
-        dest: /etc/wireguard/wg1.conf
 
-    - name: Import wireguard connection to nmcli
-      become: true
-      shell: nmcli connection import type wireguard file /etc/wireguard/wg1.conf
 
     

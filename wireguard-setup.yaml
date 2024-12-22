@@ -1,0 +1,20 @@
+---
+- name: Setup Wireguard
+  gather_facts: false
+  become_user: root
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Install wireguard-tools
+      become: true
+      dnf:
+        name: wireguard-tools
+        state: present
+    
+    - name: Pull wireguard config from ProtonDrive
+      shell: "rclone copy proton:initial_setup/wg1.conf" ./
+
+    - name: Import wireguard connection to nmcli
+      become: true
+      shell: nmcli connection import type wireguard file ./wg1.conf
+
