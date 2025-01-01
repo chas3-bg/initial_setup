@@ -80,6 +80,12 @@
         enabled: true
         state: started
 
+    - name: Install qemu and virt-manager
+      become: true
+      dnf:
+        name: qemu-kvm, virt-manager
+        state: present
+
     - name: Create software dir
       file:
         path: /home/kiretza/Software
