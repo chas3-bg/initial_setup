@@ -83,8 +83,22 @@
     - name: Install qemu and virt-manager
       become: true
       dnf:
-        name: qemu-kvm, virt-manager
+        name: qemu, virt-manager
         state: present
+
+    - name: Enable libvirtd
+      become: true
+      systemd_service:
+        name: libvirtd
+        enabled: true
+        state: started
+
+    - name: Add user to libvirt group
+      become: true
+      user:
+        name: kiretza
+        groups: libvirt
+        append: true
 
     - name: Create software dir
       file:
