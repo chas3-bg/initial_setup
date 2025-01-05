@@ -169,6 +169,12 @@
         group: kiretza
         mode: "755"
 
+    - name: Install dnf-utils
+        become: True
+        dnf:
+          name: dnf-utils
+          state: present
+
 
 
     
